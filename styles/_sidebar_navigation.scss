@@ -1,0 +1,82 @@
+.sidebar-navigation {
+    & > li > a {
+        height: 42px;
+        font-family: 'Roboto';
+        font-weight: 500 !important;
+        color: rgba(0, 0, 0, 0.6);
+        border-radius: 5px;
+
+        &.active {
+            @apply bg-blue-500;
+            color: white;
+            font-weight: 600;
+
+            & .icon,
+            & .arrow-icon {
+                background-color: white;
+            }
+
+            & .icon {
+                mask: var(--icon-active);
+                mask-size: var(--size);
+            }
+        }
+
+        &:not(.active):not(.sub-active):hover {
+            @apply text-gray-600;
+            @apply bg-gray-100;
+
+            & .icon {
+                @apply bg-gray-600;
+            }
+        }
+
+        & .icon,
+        & .arrow-icon {
+            width: 24px;
+            height: 24px;
+            background-color: #7d7c7c;
+            mask: var(--icon);
+        }
+
+        & .icon {
+            mask-size: var(--size);
+        }
+    }
+
+    & .arrow-icon {
+        outline: none;
+        transition: all 300ms ease;
+        border: 1px solid white;
+    }
+
+    & > li.shown .arrow-icon {
+        transform: rotate(90deg);
+        transition: all 300ms ease;
+    }
+}
+
+.sidebar-submenu {
+    height: 0px;
+    overflow: hidden;
+    background-color: var(--color);
+    transition: all 300ms ease;
+
+    & > li > a.active {
+        @apply bg-gray-100;
+        @apply text-gray-500;
+
+        & .icon,
+        & .arrow-icon {
+            background-color: #7d7c7c;
+        }
+
+        &:hover {
+          @apply bg-gray-200;
+        }
+    }
+
+    &.shown {
+        height: var(--height);
+    }
+}

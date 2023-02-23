@@ -1,0 +1,15 @@
+/* Profile */
+.profile-menu {
+    flex-grow: 1;
+}
+
+.profile-content {
+    /* display: none; */
+    flex-grow: 10;
+}
+
+@media (min-width: 1024px) {
+    .profile-menu {
+        min-width: 240px;
+    }
+}

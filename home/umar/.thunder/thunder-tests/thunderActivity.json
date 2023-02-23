@@ -1,0 +1,16 @@
+[
+  {
+    "_id": "1178bb74-20c7-488b-ac46-5d432c935fa9",
+    "colId": "history",
+    "containerId": "",
+    "name": "foo",
+    "url": "http://localhost:8000/customer/api/products",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2023-02-22T06:46:15.397Z",
+    "modified": "2023-02-22T06:46:15.397Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  }
+]

@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'header';
+@import 'sidebar';
+@import 'featured';
+@import 'table';
+@import 'modal';
+@import 'react-pagination';
+@import 'account';
+@import 'fonts';
+
+body {
+    background-color: #f4f6f9;
+    overflow-x: hidden;
+}
+
+html {
+    -webkit-print-color-adjust: exact !important;
+    -webkit-filter: opacity(1) !important;
+    height: 100%;
+}
+
+.content {
+    padding-left: calc(5px + 1rem);
+    padding-right: calc(5px + 1rem);
+    transition: all 300ms ease;
+
+}
+
+.no-padding {
+    margin-left: calc(-5px + -1rem);
+    margin-right: calc(-5px + -1rem);
+}
+
+.app-container.sidebar-shown {
+    @media (min-width: 1024px) {
+        .content {
+            margin-left: 250px;
+        }
+    }
+}
+
+.border-3 {
+    border-width: 3px;
+}
