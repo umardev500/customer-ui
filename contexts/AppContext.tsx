@@ -46,8 +46,7 @@ export const AppProvider: React.FC<Props> = ({ children, ...pageProps }) => {
                         method: 'GET',
                         headers: {
                             Accept: 'application/json',
-                            Authorization:
-                                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Nzc5NjI2ODMsIm5hbWUiOiJTTUsgV2FsaXNvbmdvIiwidXNlciI6IndhbGlzb25nbyIsInVzZXJfaWQiOiIxNjY3MjkyODIzMjMzIn0.37wXg3eSAIyTiu0K_Oetj2oeFmRCbdPAm6iRH-HWRHY',
+                            Authorization: `Bearer ${token}`,
                         },
                     })
                     const jsonData: CustomerResponse = await response.json()
