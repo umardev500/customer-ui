@@ -146,7 +146,7 @@ export const AccountHeading: React.FC = () => {
                             </defs>
                         </svg>
 
-                        <span className="ml-2 whitespace-nowrap">Ganti avatar</span>
+                        <span className="ml-2 whitespace-nowrap">Ganti logo</span>
                     </button>
                     {choosed !== '' ? (
                         <button
