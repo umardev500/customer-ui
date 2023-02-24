@@ -90,7 +90,7 @@ export const AccountHeading: React.FC = () => {
                         loader={imgLoader}
                         src={avatar}
                         priority
-                        className="border-3 border-white shadow-xl object-cover rounded-full w-28 h-28 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-36 xl:h-36 bg-red-100 mb-4 lg:mb-0"
+                        className="border-3 border-blue-300 object-cover rounded-full w-28 h-28 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-36 xl:h-36 bg-red-100 mb-4 lg:mb-0"
                         width={144}
                         height={144}
                         alt="avatar"
@@ -99,7 +99,7 @@ export const AccountHeading: React.FC = () => {
                     <Image
                         src={choosed as string}
                         priority
-                        className="border-3 border-white shadow-xl object-cover rounded-full w-28 h-28 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-36 xl:h-36 bg-red-100 mb-4 lg:mb-0"
+                        className="border-3 border-blue-300 object-cover rounded-full w-28 h-28 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-36 xl:h-36 bg-red-100 mb-4 lg:mb-0"
                         width={144}
                         height={144}
                         alt="avatar"
