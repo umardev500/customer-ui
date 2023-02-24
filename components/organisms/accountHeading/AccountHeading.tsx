@@ -5,13 +5,13 @@ import { imgLoader, notify } from '../../../helpers'
 import { BasicAPIResponse, modifyingResponse } from '../../../types'
 import { AccountHeadingInfo, AccountHeadingNav } from '../../molecules'
 
-const MEMBERSHIP_API = process.env.MEMBERSHIP_API as string
+const CUSTOMER_API = process.env.CUSTOMER_API as string
 
 export const AccountHeading: React.FC = () => {
     const ctx = useContext(AppContext) as AppContextType
     const userData = ctx.userData
-    const userId = userData?.customer_id
     const avatar = userData?.detail.logo ?? 'avatar.png'
+    const token = ctx.token
 
     const [choosed, setChoosed] = useState<string | ArrayBuffer>('')
     const [file, setFile] = useState<File>()
@@ -37,20 +37,22 @@ export const AccountHeading: React.FC = () => {
     }, [])
 
     const fetchPost = async (): Promise<void> => {
-        const target = `${MEMBERSHIP_API}/users/${userId ?? '000'}/avatar`
+        const target = `${CUSTOMER_API}/logo`
         if (file !== undefined) {
             const bodyContent = new FormData()
-            bodyContent.append('file', file)
+            bodyContent.append('logo', file)
 
             try {
                 const response = await fetch(target, {
                     method: 'PUT',
+                    headers: {
+                        Authorization: `Bearer ${token ?? ''}`,
+                    },
                     body: bodyContent,
                 })
 
                 const jsonData: modifyingResponse & BasicAPIResponse = await response.json()
                 const isUpdated = jsonData.data.is_affected
-                // if (isUpdated) notify.success('Data berhasil di update!', { className: 'roboto', position: 'bottom-right' })
                 if (isUpdated) {
                     ctx.setReload((val) => val + 1)
                     setChoosed('')
@@ -107,7 +109,7 @@ export const AccountHeading: React.FC = () => {
             </div>
             <div className="mt-10 flex flex-wrap-reverse gap-4 items-start justify-center lg:justify-between">
                 <AccountHeadingNav />
-                <input className="absolute -z-10 top-0" onChange={handleFileChange} ref={inputFileRef} type="file" name="avatar" />
+                <input className="absolute -z-10 top-0" onChange={handleFileChange} ref={inputFileRef} type="file" name="logo" />
                 <div className="flex">
                     <button
                         onClick={handleAvatarChange}
