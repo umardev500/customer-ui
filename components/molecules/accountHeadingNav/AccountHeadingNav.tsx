@@ -25,11 +25,6 @@ export const AccountHeadingNav: React.FC = () => {
                 </Link>
             </li>
             <li className="relative">
-                <Link href="/settings/account/earning" className={`${defaultClasses} ${getClasses([`${basePath}/earning`])}`}>
-                    Earnings
-                </Link>
-            </li>
-            <li className="relative">
                 <Link
                     href="/settings/account/profiles"
                     className={`${defaultClasses} ${getClasses([`${basePath}/profiles`, `${basePath}/profiles/address`, `${basePath}/profiles/authentication`])}`}
