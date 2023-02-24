@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import { ReactElement } from 'react'
-import { AccountLayout, Dashboard } from '../../../components'
+import { AccountLayout, Dashboard, Overview } from '../../../components'
 import { setCookie } from '../../../helpers'
 import { PageProps } from '../../../types'
 import { NextPageWithLayout } from '../../_app'
@@ -13,7 +13,9 @@ const Account: NextPageWithLayout = () => {
                 <title>Account</title>
             </Head>
 
-            <div className="mt-10 flex flex-wrap flex-col lg:flex-row gap-5"></div>
+            <div className="mt-10 flex flex-wrap flex-col lg:flex-row gap-5">
+                <Overview />
+            </div>
         </>
     )
 }
