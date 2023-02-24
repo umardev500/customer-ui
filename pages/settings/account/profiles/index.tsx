@@ -1,12 +1,16 @@
 import { GetServerSideProps } from 'next'
 import { ReactElement } from 'react'
-import { Dashboard, AccountLayout, ProfileLayout } from '../../../../components'
+import { Dashboard, AccountLayout, ProfileLayout, ProfileContent } from '../../../../components'
 import { setCookie } from '../../../../helpers'
 import { PageProps } from '../../../../types'
 import { NextPageWithLayout } from '../../../_app'
 
 const Profiles: NextPageWithLayout = () => {
-    return <></>
+    return (
+        <>
+            <ProfileContent />
+        </>
+    )
 }
 
 Profiles.getLayout = (page: ReactElement) => {

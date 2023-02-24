@@ -32,6 +32,7 @@ export const AppProvider: React.FC<Props> = ({ children, ...pageProps }) => {
             setShown,
             userData,
             setReload,
+            token,
             ...pageProps,
         }
     }, [shown, userData])
@@ -64,7 +65,7 @@ export const AppProvider: React.FC<Props> = ({ children, ...pageProps }) => {
                 .promise(
                     fetchData(),
                     {
-                        success: 'Loading selesai!',
+                        success: 'Loading user data selesai!',
                         error: 'Something wrong while loading user data',
                         loading: 'Loading user data...',
                     },
