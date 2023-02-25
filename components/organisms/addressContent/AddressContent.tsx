@@ -1,9 +1,11 @@
 import { useRouter } from 'next/router'
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { AppContext, AppContextType } from '../../../contexts'
+import { checkInputValue, checkValuesChanged, notify } from '../../../helpers'
+import { BasicAPIResponse, CustomerDetail, modifyingResponse } from '../../../types'
 import { Input } from '../../atoms'
 
-// const CUSTOMER_API = process.env.CUSTOMER_API as string
+const CUSTOMER_API = process.env.CUSTOMER_API as string
 
 export const AddressContent: React.FC = () => {
     const provinceRef = useRef<HTMLInputElement>(null)
@@ -23,6 +25,7 @@ export const AddressContent: React.FC = () => {
     const userDataStr = JSON.stringify(userData)
     const detail = userData?.detail
     const location = detail?.location
+    const token = ctx.token
 
     const [province, setProvince] = useState<string>('')
     const [city, setCity] = useState<string>('')
@@ -40,11 +43,93 @@ export const AddressContent: React.FC = () => {
         setAddress(location?.address ?? '')
     }, [userDataStr])
 
-    // const fetchPost = async (province: string, city: string, district: string, village: string, postalCode: string, address: string): Promise<void> => {
-    //     const target = `${MEMBERSHIP_API}/users/${userId ?? '000'}/location`
-    // }
+    const fetchPost = async (province: string, city: string, district: string, village: string, postalCode: string, address: string): Promise<void> => {
+        const target = `${CUSTOMER_API}/update-detail`
+        const userDetail: Omit<CustomerDetail, 'npsn' | 'name' | 'email' | 'wa' | 'type' | 'level' | 'logo' | 'about'> = {
+            location: {
+                province,
+                city,
+                district,
+                village,
+                postal_code: postalCode,
+                address,
+            },
+        }
+        const reqBody = JSON.stringify(userDetail)
 
-    const handleSave = (): void => {}
+        try {
+            const response = await fetch(target, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token ?? ''}`,
+                },
+                body: reqBody,
+            })
+            const jsonData: modifyingResponse & BasicAPIResponse = await response.json()
+            const isUpdated = jsonData.data.is_affected
+            if (isUpdated) {
+                setProvince(province)
+                setCity(city)
+                setDistrict(district)
+                setVillage(village)
+                setPostalCode(postalCode)
+                setAddress(address)
+                ctx.setReload((val) => val + 1)
+            }
+
+            console.log(isUpdated)
+
+            return await Promise.resolve()
+        } catch (err) {
+            return await Promise.reject(err)
+        }
+    }
+
+    const inputs = [provinceRef, cityRef, districtRef, villageRef, postalCodeRef, addressRef]
+
+    const handleSave = (): void => {
+        const ok = checkInputValue(inputs)
+        if (!ok) {
+            notify.error('Yg bertanda bintang tidak boleh kosong!', { position: 'bottom-right', className: 'roboto' })
+        }
+
+        const provVal = provinceRef.current?.value ?? ''
+        const cityVal = cityRef.current?.value ?? ''
+        const districtVal = districtRef.current?.value ?? ''
+        const villageVal = villageRef.current?.value ?? ''
+        const postalCodeVal = postalCodeRef.current?.value ?? ''
+        const addressVal = addressRef.current?.value ?? ''
+
+        const isChanged = checkValuesChanged([
+            [provVal, province],
+            [cityVal, city],
+            [districtVal, district],
+            [villageVal, village],
+            [postalCodeVal, postalCode],
+            [addressVal, address],
+        ])
+
+        if (!isChanged) {
+            notify.error('Tidak ada perubahan untuk di update!', { className: 'roboto', position: 'bottom-right' })
+            return
+        }
+
+        notify
+            .promise(
+                fetchPost(provVal, cityVal, districtVal, villageVal, postalCodeVal, addressVal),
+                {
+                    loading: 'Memproses update...',
+                    success: 'Update data berhasil!',
+                    error: 'Something went wrong!',
+                },
+                {
+                    className: 'roboto',
+                    position: 'bottom-right',
+                }
+            )
+            .catch(() => {})
+    }
 
     return (
         <div className="mt-4 mb-4">
