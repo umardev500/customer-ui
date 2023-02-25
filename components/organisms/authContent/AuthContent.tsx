@@ -5,7 +5,7 @@ import { checkInputValue, checkValuesChanged, notify } from '../../../helpers'
 import { BasicAPIResponse, modifyingResponse, NewCreds } from '../../../types'
 import { Input } from '../../atoms'
 
-const MEMBERSHIP_API = process.env.MEMBERSHIP_API as string
+const CUSTOMER_API = process.env.CUSTOMER_API as string
 
 export const AuthContent: React.FC = () => {
     const [pass, setPass] = useState<string>('')
@@ -20,11 +20,11 @@ export const AuthContent: React.FC = () => {
 
     const ctx = useContext(AppContext) as AppContextType
     const userData = ctx.userData
-    const userId = userData?.user_id
     const user = userData?.user ?? ''
+    const token = ctx.token
 
     const fetchPost = async (pass: string, newPass: string): Promise<void> => {
-        const target = `${MEMBERSHIP_API}/users/${userId ?? '000'}/creds`
+        const target = `${CUSTOMER_API}/update-creds`
         const creds: NewCreds = {
             user,
             pass: passRef.current?.value ?? '',
@@ -38,6 +38,7 @@ export const AuthContent: React.FC = () => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token ?? ''}`,
                 },
                 body: reqBody,
             })
