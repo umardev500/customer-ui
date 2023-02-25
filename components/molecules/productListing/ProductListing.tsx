@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { parseDate, toCurrency } from '../../../helpers'
 import { Product } from '../../../types'
+import { OrderModal } from '../orderModal'
 import { ProductDetailModal } from '../productDetailModal'
 
 interface Props extends Product {
@@ -10,6 +11,7 @@ interface Props extends Product {
 export const ProductListing: React.FC<Props> = ({ index, ...props }) => {
     const { product_id: productId, name, price, duration, created_at: createdAt } = props
     const [detailModal, setDetailModal] = useState(false)
+    const [orderModal, setOrderModal] = useState(false)
 
     return (
         <tr>
@@ -43,13 +45,14 @@ export const ProductListing: React.FC<Props> = ({ index, ...props }) => {
                         </svg>
                     </button>
                     <div className="inline-flex ml-1.5 border-l border-gray-300 h-5"></div>
-                    <button className="flex outline-none ml-1.5 bg-green-600 hover:bg-green-700 px-1.5 py-1.5 rounded-lg text-white">
+                    <button onClick={() => setOrderModal(true)} className="flex outline-none ml-1.5 bg-green-600 hover:bg-green-700 px-1.5 py-1.5 rounded-lg text-white">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M6 12H18M12 18V6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                     </button>
                 </div>
                 {detailModal ? <ProductDetailModal {...props} setModalState={setDetailModal} /> : null}
+                {orderModal ? <OrderModal setModalState={setOrderModal} /> : null}
             </td>
         </tr>
     )

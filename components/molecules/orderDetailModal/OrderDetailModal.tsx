@@ -56,7 +56,7 @@ export const OrderDetailModal: React.FC<Props> = ({ setModalState, ...props }) =
                         </div>
                         <div className="border-b mb-4 pb-4">
                             <div className="mt-2">
-                                <span className="text-base font-medium roboto text-gray-500">Kode Transfer:</span>
+                                <span className="text-base font-medium roboto text-gray-500">ID Transfer:</span>
                                 <span className="text-base ml-2 text-gray-400 whitespace-normal roboto">{vaNumber}</span>
                             </div>
                             <div className="mt-2">
