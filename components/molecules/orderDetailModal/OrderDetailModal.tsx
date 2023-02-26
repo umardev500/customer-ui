@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import { parseDate, toCurrency, toUpperFirst } from '../../../helpers'
 import { useDetectOutsideClick, useModalCloseHandler, useModalShowEffect } from '../../../hooks'
+import { useExp } from '../../../hooks/useExp'
 import { Order } from '../../../types'
 
 interface Props extends Order {
@@ -8,7 +9,7 @@ interface Props extends Order {
 }
 
 export const OrderDetailModal: React.FC<Props> = ({ setModalState, ...props }) => {
-    const { order_id: orderId, buyer, product, status, created_at: createdTime, updated_at: updatedTime } = props
+    const { order_id: orderId, buyer, product, status, created_at: createdTime, updated_at: updatedTime, settlement_time: settlementTime } = props
     const { name: buyerName } = buyer
     const { product_id: productId, name: productName, price: productPrice, duration, description } = product
     const { payment_type: paymentType, va_number: vaNumber, gross_amount: grossAmount, bank } = props.payment
@@ -24,6 +25,8 @@ export const OrderDetailModal: React.FC<Props> = ({ setModalState, ...props }) =
 
     // back handler
     const backHandler = useModalCloseHandler({ status: setModalState })
+
+    const isExp = useExp(settlementTime ?? 0, duration)
 
     return (
         <>
@@ -90,7 +93,7 @@ export const OrderDetailModal: React.FC<Props> = ({ setModalState, ...props }) =
                         </div>
                         <div className="mt-2">
                             <span className="text-base font-medium roboto text-gray-500">Status:</span>
-                            <span className={`text-base ml-2 text-gray-400 whitespace-normal roboto`}>{toUpperFirst(status)}</span>
+                            <span className={`text-base ml-2 text-gray-400 whitespace-normal roboto`}>{isExp ? 'Expired' : toUpperFirst(status)}</span>
                         </div>
                         <div className="mt-2">
                             <span className="text-base font-medium roboto text-gray-500">Pemesanan:</span>
