@@ -1,12 +1,18 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
+import { AppContext, AppContextType } from '../../../contexts'
+import { notify } from '../../../helpers'
 import { useDetectOutsideClick, useModalCloseHandler, useModalShowEffect } from '../../../hooks'
+import { BankTransferTransaction, BasicAPIResponse, OrderRequest } from '../../../types'
 
 interface Props {
     setModalState: React.Dispatch<React.SetStateAction<boolean>>
+    productId: string
 }
 
-export const OrderModal: React.FC<Props> = ({ setModalState, ...props }) => {
-    const [bank, setBank] = useState('bri')
+const CUSTOMER_API = process.env.CUSTOMER_API as string
+
+export const OrderModal: React.FC<Props> = ({ setModalState, productId, ...props }) => {
+    const [bank, setBank] = useState('')
 
     const modalRef = useRef<HTMLDivElement>(null)
     const modalInnerRef = useRef<HTMLDivElement>(null)
@@ -22,6 +28,64 @@ export const OrderModal: React.FC<Props> = ({ setModalState, ...props }) => {
 
     const handleChangeBank = (val: string): void => {
         setBank(val)
+    }
+
+    const ctx = useContext(AppContext) as AppContextType
+    const token = ctx.token
+
+    const postOrder = async (): Promise<void> => {
+        const target = `${CUSTOMER_API}/orders?payment_type=bank`
+        const orderData: OrderRequest = {
+            product_id: productId,
+            payment: {
+                payment_type: 'bank_transfer',
+                bank_transfer: {
+                    bank,
+                },
+            },
+        }
+
+        const reqBody = JSON.stringify(orderData)
+
+        try {
+            const response = await fetch(target, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    Authorization: `Bearer ${token ?? ''}`,
+                    'Content-Type': 'application/json',
+                },
+                body: reqBody,
+            })
+
+            const jsonData: BankTransferTransaction & BasicAPIResponse = await response.json()
+            const statusCode = jsonData.status_code
+            console.log(jsonData)
+            if (statusCode === 201) {
+                return await Promise.resolve()
+            } else {
+                return await Promise.reject(new Error(jsonData.message))
+            }
+        } catch (err) {
+            return await Promise.reject(err)
+        }
+    }
+
+    const doOrder = (): void => {
+        notify
+            .promise(
+                postOrder(),
+                {
+                    loading: 'Memproses pesanan...',
+                    success: 'Pesanan berhasil diproses!',
+                    error: 'Something went wrong!',
+                },
+                {
+                    className: 'roboto',
+                    position: 'bottom-right',
+                }
+            )
+            .catch(() => {})
     }
 
     return (
@@ -64,7 +128,9 @@ export const OrderModal: React.FC<Props> = ({ setModalState, ...props }) => {
                         </div>
                     </div>
                     <div className="px-5 pb-4 flex justify-center flex-col">
-                        <button className={`bg-blue-600 hover:bg-blue-700 rounded-md px-3 py-2 text-white mb-1.5`}>Submit</button>
+                        <button onClick={doOrder} className={`bg-blue-600 hover:bg-blue-700 rounded-md px-3 py-2 text-white mb-1.5`}>
+                            Submit
+                        </button>
                         <button
                             onClick={backHandler}
                             className="bg-white border border-gray-200 hover:border-gray-300 text-gray-500 hover:text-gray-600 hover:bg-gray-100 rounded-md px-3 py-2"

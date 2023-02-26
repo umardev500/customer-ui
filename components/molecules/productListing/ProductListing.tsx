@@ -52,7 +52,7 @@ export const ProductListing: React.FC<Props> = ({ index, ...props }) => {
                     </button>
                 </div>
                 {detailModal ? <ProductDetailModal {...props} setModalState={setDetailModal} /> : null}
-                {orderModal ? <OrderModal setModalState={setOrderModal} /> : null}
+                {orderModal ? <OrderModal productId={props.product_id} setModalState={setOrderModal} /> : null}
             </td>
         </tr>
     )
