@@ -126,6 +126,12 @@ export const OrderModal: React.FC<Props> = ({ setModalState, productId, ...props
                         >
                             <span>BRI Virtual account</span>
                         </div>
+                        <div
+                            onClick={() => handleChangeBank('bni')}
+                            className={` ${bank === 'bni' ? 'bg-blue-50 ring-2' : 'bg-gray-50 hover:bg-gray-100'} cursor-pointer mb-2 rounded-md py-2.5 px-4`}
+                        >
+                            <span>BNI Virtual account</span>
+                        </div>
                     </div>
                     <div className="px-5 pb-4 flex justify-center flex-col">
                         <button onClick={doOrder} className={`bg-blue-600 hover:bg-blue-700 rounded-md px-3 py-2 text-white mb-1.5`}>
