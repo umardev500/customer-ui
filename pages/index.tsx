@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import { ReactElement, useEffect } from 'react'
-import { Dashboard } from '../components'
+import { Dashboard, FeaturedList } from '../components'
 import { setCookie } from '../helpers'
 import { PageProps } from '../types'
 import { NextPageWithLayout } from './_app'
@@ -17,6 +17,7 @@ const Home: NextPageWithLayout = () => {
             <Head>
                 <title>Dashboard</title>
             </Head>
+            <FeaturedList />
         </>
     )
 }

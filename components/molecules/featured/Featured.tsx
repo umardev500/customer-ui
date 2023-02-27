@@ -2,7 +2,7 @@ import React from 'react'
 
 interface Props {
     textName: string
-    textValue: number
+    textValue: string
     color: string
     icon: string
 }
