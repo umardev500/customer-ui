@@ -1,8 +1,9 @@
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
-import { ReactElement, useEffect } from 'react'
+import { ReactElement } from 'react'
 import { Dashboard, FeaturedList } from '../components'
 import { setCookie } from '../helpers'
+import { useFeatured } from '../hooks/useFeatured'
 import { PageProps } from '../types'
 import { NextPageWithLayout } from './_app'
 
@@ -10,14 +11,14 @@ import { NextPageWithLayout } from './_app'
 
 const Home: NextPageWithLayout = () => {
     // Fetch customer count
-    useEffect(() => {}, [])
+    const featuredValues = useFeatured()
 
     return (
         <>
             <Head>
                 <title>Dashboard</title>
             </Head>
-            <FeaturedList />
+            <FeaturedList contractLeft={featuredValues.left} ordersCount={featuredValues.orders} lastOrderCount={featuredValues.lastOrder} pendingCount={featuredValues.pending} />
         </>
     )
 }
