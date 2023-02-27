@@ -1,12 +1,15 @@
-import React, { useRef } from 'react'
-import { parseDate, toCurrency, toUpperFirst } from '../../../helpers'
+import React, { useCallback, useContext, useRef } from 'react'
+import { AppContext, AppContextType } from '../../../contexts'
+import { notify, parseDate, toCurrency, toUpperFirst } from '../../../helpers'
 import { useDetectOutsideClick, useModalCloseHandler, useModalShowEffect } from '../../../hooks'
 import { useExp } from '../../../hooks/useExp'
-import { Order } from '../../../types'
+import { BasicAPIResponse, modifyingResponse, Order } from '../../../types'
 
 interface Props extends Order {
     setModalState: React.Dispatch<React.SetStateAction<boolean>>
 }
+
+const CUSTOMER_API = process.env.CUSTOMER_API as string
 
 export const OrderDetailModal: React.FC<Props> = ({ setModalState, ...props }) => {
     const { order_id: orderId, buyer, product, status, created_at: createdTime, updated_at: updatedTime, settlement_time: settlementTime } = props
@@ -27,6 +30,46 @@ export const OrderDetailModal: React.FC<Props> = ({ setModalState, ...props }) =
     const backHandler = useModalCloseHandler({ status: setModalState })
 
     const isExp = useExp(settlementTime ?? 0, duration)
+    const ctx = useContext(AppContext) as AppContextType
+    const token = ctx.token
+
+    const doCancel = async (): Promise<void> => {
+        const target = `${CUSTOMER_API}/orders/${orderId}/cancel`
+
+        try {
+            const response = await fetch(target, {
+                method: 'PUT',
+                headers: {
+                    Accept: 'application/json',
+                    Authorization: `Bearer ${token ?? ''}`,
+                },
+            })
+
+            const jsonData: modifyingResponse & BasicAPIResponse = await response.json()
+            const isUpdated = jsonData.data.is_affected ?? false
+            if (isUpdated) return await Promise.resolve()
+            return await Promise.reject(new Error('bad request'))
+        } catch (err) {
+            return await Promise.reject(err)
+        }
+    }
+
+    const handleCancel = useCallback(() => {
+        notify
+            .promise(
+                doCancel(),
+                {
+                    loading: 'Memproses pembatalan...',
+                    success: 'Pembatalan berhasil!',
+                    error: 'Something went wrong!',
+                },
+                {
+                    className: 'roboto',
+                    position: 'bottom-right',
+                }
+            )
+            .catch(() => {})
+    }, [])
 
     return (
         <>
@@ -116,6 +159,14 @@ export const OrderDetailModal: React.FC<Props> = ({ setModalState, ...props }) =
                             >
                                 Kembali
                             </button>
+                            {status === 'pending' ? (
+                                <button
+                                    onClick={handleCancel}
+                                    className={`ml-1.5 mt-4 roboto font-medium border border-red-500 bg-red-500 hover:bg-red-600 hover:border-red-600 rounded-md px-4 py-2 text-white`}
+                                >
+                                    Batalkan
+                                </button>
+                            ) : null}
                         </div>
                     </div>
                 </div>

@@ -32,7 +32,7 @@ const Orders: NextPageWithLayout = ({ token }: PageProps) => {
     const router = useRouter()
     const params = router.query
     const PAGE = params.page as string
-    const SORT = (params.sort as string) ?? 'asc'
+    const SORT = (params.sort as string) ?? 'desc'
     const STATUS = (params.status as string) ?? 'none'
     const [orderList, setOrderList] = useState<Order[]>([])
 
