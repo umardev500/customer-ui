@@ -145,7 +145,7 @@ export const AddressContent: React.FC = () => {
 
             <div className="flex flex-col lg:flex-row flex-wrap gap-4 mb-5">
                 <Input ref={postalCodeRef} className="flex-none" title="Kode POS" placeholder="42290" defaultValue={postalCode} required />
-                <Input ref={addressRef} title="Alamat" placeholder="Jl. Raya Labuan Km.120 Branch of Code" defaultValue={address} required />
+                <Input ref={addressRef} title="Alamat Lengkap" placeholder="Jl. Raya Labuan Km.120 Branch of Code" defaultValue={address} required />
             </div>
 
             <div className="flex gap-2 mt-10 justify-end">
