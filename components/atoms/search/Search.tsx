@@ -14,7 +14,7 @@ export const Search = ({ placeholder, title, callback }: Props): React.ReactElem
 
     return (
         <div className="inline-flex items-center">
-            <span className="mr-2 roboto text-gray-500 text-base">Seach:</span>
+            <span className="mr-2 roboto text-gray-500 text-base">Search:</span>
             <input
                 ref={ref}
                 type="text"
