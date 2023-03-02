@@ -18,10 +18,10 @@ export const OrderList = React.memo((props: Props) => {
                         <tr className="">
                             <th className="text-center border-r py-3 px-4 w-16 whitespace-nowrap">No.</th>
                             <th className="text-left border-r py-3 px-4 whitespace-nowrap w-60">Nomor Pesanan</th>
-                            <th className="text-left border-r py-3 px-4 whitespace-nowrap w-60">Nama Pemesan</th>
-                            <th className="text-left border-r py-3 px-4 whitespace-nowrap">Produk</th>
+                            <th className="text-left border-r py-3 px-4 whitespace-nowrap w-60">Nama Produk</th>
                             <th className="text-left border-r py-3 px-4 whitespace-nowrap">Harga Produk</th>
                             <th className="text-left border-r py-3 px-4 whitespace-nowrap">Tanggal Pemesanan</th>
+                            <th className="text-left border-r py-3 px-4 whitespace-nowrap">Expired</th>
                             <th className="text-left border-r py-3 px-4 whitespace-nowrap">Status</th>
                             <th className="text-left border-r py-3 px-4 whitespace-nowrap">Tindakan</th>
                         </tr>

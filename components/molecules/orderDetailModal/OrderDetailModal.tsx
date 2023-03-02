@@ -10,6 +10,7 @@ interface Props extends Order {
 }
 
 const CUSTOMER_API = process.env.CUSTOMER_API as string
+const EXPIRY_PAYMENT = process.env.EXPIRY_PAYMENT as string
 
 export const OrderDetailModal: React.FC<Props> = ({ setModalState, ...props }) => {
     const { order_id: orderId, buyer, product, status, created_at: createdTime, updated_at: updatedTime, settlement_time: settlementTime } = props
@@ -71,6 +72,8 @@ export const OrderDetailModal: React.FC<Props> = ({ setModalState, ...props }) =
             .catch(() => {})
     }, [])
 
+    const payExp = parseDate(parseInt(EXPIRY_PAYMENT) + (createdTime ?? 0))
+
     return (
         <>
             <div className="modal pt-5 px-5" ref={modalRef}>
@@ -117,6 +120,12 @@ export const OrderDetailModal: React.FC<Props> = ({ setModalState, ...props }) =
                                 <span className="text-base font-medium roboto text-gray-500">Jumlah:</span>
                                 <span className="text-base ml-2 text-gray-400 whitespace-normal roboto">{toCurrency(grossAmount, 'Rp')}</span>
                             </div>
+                            {payExp !== undefined ? (
+                                <div className="mt-2">
+                                    <span className="text-base font-medium roboto text-gray-500">Lunasi sebelum:</span>
+                                    <span className="text-base ml-2 text-gray-400 whitespace-normal roboto">{payExp}</span>
+                                </div>
+                            ) : null}
                         </div>
                         <div className="mt-2">
                             <span className="text-base font-medium roboto text-gray-500">Produk:</span>

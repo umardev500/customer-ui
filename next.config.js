@@ -12,7 +12,8 @@ const nextConfig = {
     AUTH_API: `${baseURL}/auth/customer/api`,
     SECRET: 'taiAyam',
     DUMY_USERNAME: "dummyusername",
-    DUMY_PASSWORD: "dummypassword"
+    DUMY_PASSWORD: "dummypassword",
+    EXPIRY_PAYMENT: 3600
   },
   async redirects() {
     return [
