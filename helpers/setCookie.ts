@@ -19,7 +19,7 @@ export const setCookie = (ctx: GetServerSidePropsContext<ParsedUrlQuery, Preview
             path: '/',
             httpOnly: true,
             secure: true,
-            sameSite: 'strict',
+            sameSite: 'None',
         })
     }
 
