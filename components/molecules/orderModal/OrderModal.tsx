@@ -70,7 +70,8 @@ export const OrderModal: React.FC<Props> = ({ setModalState, productId, ...props
                 return await Promise.reject(new Error(jsonData.message))
             }
         } catch (err) {
-            return await Promise.reject(err)
+            console.log(err)
+            return await Promise.reject(new Error('Something went wrong!'))
         }
     }
 
@@ -81,7 +82,7 @@ export const OrderModal: React.FC<Props> = ({ setModalState, productId, ...props
                 {
                     loading: 'Memproses pesanan...',
                     success: 'Pesanan berhasil diproses!',
-                    error: 'Something went wrong!',
+                    error: (err) => `${err.message} `,
                 },
                 {
                     className: 'roboto',

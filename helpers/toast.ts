@@ -1,5 +1,5 @@
-import toast from 'react-hot-toast'
 import { CSSProperties } from 'react'
+import toast, { ValueOrFunction } from 'react-hot-toast'
 
 type Renderable = JSX.Element | string | null
 type ToastPosition = 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'
@@ -22,8 +22,8 @@ interface ToastOptions {
 
 interface msgs {
     loading: Renderable
-    success: Renderable
-    error: Renderable
+    success: ValueOrFunction<Renderable, any>
+    error: ValueOrFunction<Renderable, TypeError>
 }
 
 const obj = {
