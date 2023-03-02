@@ -48,3 +48,12 @@ export interface OrderResponse {
         payload: OrderData
     }
 }
+
+export interface OrderOneResponse {
+    status_code: number
+    message: string
+    data: {
+        is_empty: boolean
+        payload: Order
+    }
+}
