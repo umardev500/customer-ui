@@ -16,6 +16,7 @@ export const useFeatured = (): FeaturedValue => {
 
     const ctx = useContext(AppContext) as AppContextType
     const token = ctx.token
+    const isDeleted = ctx.userData?.deleted_at
 
     const fetchData = async (route: string): Promise<OrderData | undefined> => {
         // localhost:8000/membership/api/customers?status=none&count_only=true
@@ -101,10 +102,10 @@ export const useFeatured = (): FeaturedValue => {
             setFeaturedValues(featuredValueTemp)
         }
 
-        if (ctx.userData?.deleted_at === undefined || ctx.userData?.deleted_at === 0) {
+        if (token !== '' && token !== undefined && isDeleted === undefined) {
             batchUpdate().catch(() => {})
         }
-    }, [ctx.userData?.deleted_at])
+    }, [token])
 
     return featuredValues
 }
