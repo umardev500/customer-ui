@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
-// const baseURL = 'https://b934-140-213-140-224.ap.ngrok.io'
-const baseURL = 'http://localhost:8000'
+const baseURL = 'https://3351-140-213-132-236.ap.ngrok.io'
+// const baseURL = 'http://localhost:8000'
 
 const nextConfig = {
   reactStrictMode: false,
@@ -11,8 +11,8 @@ const nextConfig = {
     SERVER_TIME_API: `${baseURL}/server-time`,
     AUTH_API: `${baseURL}/auth/customer/api`,
     SECRET: 'taiAyam',
-    DUMY_USERNAME: "walisongo",
-    DUMY_PASSWORD: "walisongopass"
+    DUMY_USERNAME: "dummyusername",
+    DUMY_PASSWORD: "dummypassword"
   },
   async redirects() {
     return [

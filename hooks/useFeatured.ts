@@ -101,8 +101,10 @@ export const useFeatured = (): FeaturedValue => {
             setFeaturedValues(featuredValueTemp)
         }
 
-        batchUpdate().catch(() => {})
-    }, [])
+        if (ctx.userData?.deleted_at === undefined || ctx.userData?.deleted_at === 0) {
+            batchUpdate().catch(() => {})
+        }
+    }, [ctx.userData?.deleted_at])
 
     return featuredValues
 }
