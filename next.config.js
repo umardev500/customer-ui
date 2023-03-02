@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-const baseURL = 'https://3351-140-213-132-236.ap.ngrok.io'
+const baseURL = 'https://eb41-140-213-132-236.ap.ngrok.io'
 // const baseURL = 'http://localhost:8000'
 
 const nextConfig = {
