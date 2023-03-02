@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { AppContext, AppContextType } from '../../../contexts'
-import { notify } from '../../../helpers'
+import { getErr, notify } from '../../../helpers'
 import { useDetectOutsideClick, useModalCloseHandler, useModalShowEffect } from '../../../hooks'
 import { BankTransferTransaction, BasicAPIResponse, Order, OrderOneResponse, OrderRequest } from '../../../types'
 import { OrderDetailModal } from '../orderDetailModal'
@@ -69,9 +69,9 @@ export const OrderModal: React.FC<Props> = ({ setModalState, productId, ...props
             } else {
                 return await Promise.reject(new Error(jsonData.message))
             }
-        } catch (err) {
-            console.log(err)
-            return await Promise.reject(new Error('Something went wrong!'))
+        } catch (err: any) {
+            const errMsg = getErr(err as TypeError)
+            return await Promise.reject(errMsg)
         }
     }
 
