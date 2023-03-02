@@ -1,9 +1,11 @@
+import { PDFDownloadLink } from '@react-pdf/renderer'
 import React, { useCallback, useContext, useRef } from 'react'
 import { AppContext, AppContextType } from '../../../contexts'
 import { notify, parseDate, toCurrency, toUpperFirst } from '../../../helpers'
 import { useDetectOutsideClick, useModalCloseHandler, useModalShowEffect } from '../../../hooks'
 import { useExp } from '../../../hooks/useExp'
 import { BasicAPIResponse, modifyingResponse, Order } from '../../../types'
+import { OrderPDF } from '../../organisms'
 
 interface Props extends Order {
     setModalState: React.Dispatch<React.SetStateAction<boolean>>
@@ -162,11 +164,13 @@ export const OrderDetailModal: React.FC<Props> = ({ setModalState, ...props }) =
                             <span className="text-base font-normal text-gray-400 whitespace-normal roboto">{description}</span>
                         </div>
                         <div className="text-right">
-                            <button
-                                onClick={backHandler}
-                                className={`mt-4 roboto font-medium border border-gray-300 hover:border-gray-400 rounded-md px-4 py-2 text-gray-400 hover:text-gray-500`}
-                            >
-                                Kembali
+                            <button className={`mt-4 roboto font-medium border border-gray-300 hover:border-gray-400 rounded-md px-4 py-2 text-gray-400 hover:text-gray-500`}>
+                                <PDFDownloadLink
+                                    fileName="order-struct"
+                                    document={<OrderPDF bank={bank} exp={payExp} productName={productName} total={toCurrency(grossAmount, 'Rp')} vaNumber={vaNumber} />}
+                                >
+                                    Download
+                                </PDFDownloadLink>
                             </button>
                             {status === 'pending' ? (
                                 <button
