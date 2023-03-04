@@ -12,10 +12,9 @@ interface Props extends Order {
 }
 
 const CUSTOMER_API = process.env.CUSTOMER_API as string
-const EXPIRY_PAYMENT = process.env.EXPIRY_PAYMENT as string
 
 export const OrderDetailModal: React.FC<Props> = ({ setModalState, ...props }) => {
-    const { order_id: orderId, buyer, product, status, created_at: createdTime, updated_at: updatedTime, settlement_time: settlementTime } = props
+    const { order_id: orderId, buyer, product, status, created_at: createdTime, updated_at: updatedTime, pay_exp: payExpiry, settlement_time: settlementTime } = props
     const { name: buyerName } = buyer
     const { product_id: productId, name: productName, price: productPrice, duration, description } = product
     const { payment_type: paymentType, va_number: vaNumber, gross_amount: grossAmount, bank } = props.payment
@@ -74,7 +73,7 @@ export const OrderDetailModal: React.FC<Props> = ({ setModalState, ...props }) =
             .catch(() => {})
     }, [])
 
-    const payExp = parseDate(parseInt(EXPIRY_PAYMENT) + (createdTime ?? 0))
+    const payExp = parseDate(payExpiry)
 
     return (
         <>
