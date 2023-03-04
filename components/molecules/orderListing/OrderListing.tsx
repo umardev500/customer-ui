@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { parseDate, toCurrency, toUpperFirst } from '../../../helpers'
-import { useExp } from '../../../hooks/useExp'
+import { useExpTime } from '../../../hooks'
 import { Order } from '../../../types'
 import { OrderDetailModal } from '../orderDetailModal'
 
@@ -8,20 +8,22 @@ interface Props extends Order {
     index: number
 }
 
-const EXPIRY_PAYMENT = process.env.EXPIRY_PAYMENT as string
-
 export const OrderListing = React.memo(({ index, ...props }: Props) => {
-    const { order_id: orderId, status, buyer, product, created_at: createdTime, settlement_time: settlementTime } = props
-    const { name } = buyer
-    const { name: productName, price: productPrice, duration } = product
+    const { order_id: orderId, status, product, created_at: createdTime, pay_exp: payExpiry } = props
+    const { name: productName, price: productPrice } = product
     const [detailModal, setDetailModal] = useState(false)
 
     const handleClickDetail = useCallback(() => {
         setDetailModal(true)
     }, [])
 
-    const isExp = useExp(settlementTime ?? 0, duration)
-    const payExp = parseDate(parseInt(EXPIRY_PAYMENT) + (createdTime ?? 0))
+    const payExp = parseDate(payExpiry)
+    const expired = useExpTime(payExpiry)
+
+    const getStatus = (): string => {
+        if (expired && status !== 'cancel') return 'Expired'
+        return toUpperFirst(status)
+    }
 
     return (
         <tr>
@@ -36,7 +38,7 @@ export const OrderListing = React.memo(({ index, ...props }: Props) => {
             <td className="px-4 border-r border-b border-slate-200 py-2 whitespace-nowrap">{parseDate(createdTime)}</td>
             <td className="px-4 border-r border-b border-slate-200 py-2 whitespace-nowrap">{payExp}</td>
             <td className="px-4 border-r border-b border-slate-200 py-2 whitespace-nowrap text-left">
-                <span className={`py-1 px-1.5 rounded`}>{isExp ? 'Expired' : toUpperFirst(status)}</span>
+                <span className={`py-1 px-1.5 rounded`}>{getStatus()}</span>
             </td>
             <td className="px-4 border-r border-b border-slate-200 py-2 whitespace-nowrap w-10">
                 <div className="text-center">
