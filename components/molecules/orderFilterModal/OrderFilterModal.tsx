@@ -9,7 +9,7 @@ interface Props {
 }
 
 const DEFAULT_STATUS = 'none'
-const DEFAULT_SORT = 'asc'
+const DEFAULT_SORT = 'desc'
 
 export const OrderFilterModal: React.FC<Props> = ({ modalSetState, saveCallback }) => {
     const modalRef = useRef<HTMLDivElement>(null)
