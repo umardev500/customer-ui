@@ -62,8 +62,12 @@ export const OrderPDF: React.FC<Props> = ({ productName, vaNumber, bank, total, 
                             borderColor: '#e5e7eb',
                         }}
                     >
-                        <Text style={{ fontSize: 12, color: '#374151' }}>Lunasi Sebelum:</Text>
-                        <Text style={{ fontSize: 12, color: '#6b7280' }}>{exp}</Text>
+                        {status.toLocaleLowerCase() === 'pending' ? (
+                            <>
+                                <Text style={{ fontSize: 12, color: '#374151' }}>Lunasi Sebelum:</Text>
+                                <Text style={{ fontSize: 12, color: '#6b7280' }}>{exp}</Text>
+                            </>
+                        ) : null}
                     </View>
                 </View>
             </Page>
