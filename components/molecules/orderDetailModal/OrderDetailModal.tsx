@@ -2,8 +2,7 @@ import { PDFDownloadLink } from '@react-pdf/renderer'
 import React, { useCallback, useContext, useRef } from 'react'
 import { AppContext, AppContextType } from '../../../contexts'
 import { notify, parseDate, toCurrency, toUpperFirst } from '../../../helpers'
-import { useDetectOutsideClick, useModalCloseHandler, useModalShowEffect } from '../../../hooks'
-import { useExp } from '../../../hooks/useExp'
+import { useDetectOutsideClick, useExpTime, useModalCloseHandler, useModalShowEffect } from '../../../hooks'
 import { BasicAPIResponse, modifyingResponse, Order } from '../../../types'
 import { OrderPDF } from '../../organisms'
 
@@ -31,7 +30,6 @@ export const OrderDetailModal: React.FC<Props> = ({ setModalState, ...props }) =
     // back handler
     const backHandler = useModalCloseHandler({ status: setModalState })
 
-    const isExp = useExp(settlementTime ?? 0, duration)
     const ctx = useContext(AppContext) as AppContextType
     const token = ctx.token
 
@@ -74,6 +72,12 @@ export const OrderDetailModal: React.FC<Props> = ({ setModalState, ...props }) =
     }, [])
 
     const payExp = parseDate(payExpiry)
+    const expired = useExpTime(payExpiry)
+
+    const getStatus = (): string => {
+        if (expired && status !== 'cancel' && settlementTime === undefined) return 'Expired'
+        return toUpperFirst(status)
+    }
 
     return (
         <>
@@ -146,7 +150,7 @@ export const OrderDetailModal: React.FC<Props> = ({ setModalState, ...props }) =
                         </div>
                         <div className="mt-2">
                             <span className="text-base font-medium roboto text-gray-500">Status:</span>
-                            <span className={`text-base ml-2 text-gray-400 whitespace-normal roboto`}>{isExp ? 'Expired' : toUpperFirst(status)}</span>
+                            <span className={`text-base ml-2 text-gray-400 whitespace-normal roboto`}>{getStatus()}</span>
                         </div>
                         <div className="mt-2">
                             <span className="text-base font-medium roboto text-gray-500">Pemesanan:</span>

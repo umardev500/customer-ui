@@ -9,7 +9,7 @@ interface Props extends Order {
 }
 
 export const OrderListing = React.memo(({ index, ...props }: Props) => {
-    const { order_id: orderId, status, product, created_at: createdTime, pay_exp: payExpiry } = props
+    const { order_id: orderId, status, product, created_at: createdTime, pay_exp: payExpiry, settlement_time: settlementTime } = props
     const { name: productName, price: productPrice } = product
     const [detailModal, setDetailModal] = useState(false)
 
@@ -21,7 +21,7 @@ export const OrderListing = React.memo(({ index, ...props }: Props) => {
     const expired = useExpTime(payExpiry)
 
     const getStatus = (): string => {
-        if (expired && status !== 'cancel') return 'Expired'
+        if (expired && status !== 'cancel' && settlementTime === undefined) return 'Expired'
         return toUpperFirst(status)
     }
 
