@@ -7,9 +7,10 @@ interface Props {
     bank: string
     total: string
     exp: string
+    status: string
 }
 
-export const OrderPDF: React.FC<Props> = ({ productName, vaNumber, bank, total, exp }) => {
+export const OrderPDF: React.FC<Props> = ({ productName, vaNumber, bank, total, exp, status }) => {
     return (
         <Document>
             <Page size={'A6'}>
@@ -33,6 +34,21 @@ export const OrderPDF: React.FC<Props> = ({ productName, vaNumber, bank, total, 
                     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
                         <Text style={{ fontSize: 12, color: '#374151' }}>Jumlah:</Text>
                         <Text style={{ fontSize: 12, color: '#6b7280' }}>{total}</Text>
+                    </View>
+                    <View
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            marginBottom: 10,
+                            marginTop: 5,
+                            borderTop: 0.5,
+                            paddingTop: 12,
+                            borderColor: '#e5e7eb',
+                        }}
+                    >
+                        <Text style={{ fontSize: 12, color: '#374151' }}>Status:</Text>
+                        <Text style={{ fontSize: 12, color: '#6b7280' }}>{status}</Text>
                     </View>
                     <View
                         style={{

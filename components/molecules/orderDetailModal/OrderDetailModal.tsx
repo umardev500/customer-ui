@@ -170,7 +170,16 @@ export const OrderDetailModal: React.FC<Props> = ({ setModalState, ...props }) =
                             <button className={`mt-4 roboto font-medium border border-gray-300 hover:border-gray-400 rounded-md px-4 py-2 text-gray-400 hover:text-gray-500`}>
                                 <PDFDownloadLink
                                     fileName="order-struct"
-                                    document={<OrderPDF bank={bank} exp={payExp} productName={productName} total={toCurrency(grossAmount, 'Rp')} vaNumber={vaNumber} />}
+                                    document={
+                                        <OrderPDF
+                                            bank={bank}
+                                            exp={payExp}
+                                            productName={productName}
+                                            total={toCurrency(grossAmount, 'Rp')}
+                                            vaNumber={vaNumber}
+                                            status={getStatus()}
+                                        />
+                                    }
                                 >
                                     Download
                                 </PDFDownloadLink>
