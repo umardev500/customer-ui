@@ -50,7 +50,7 @@ export const useFeatured = (): FeaturedValue => {
                 pending: '0',
             }
 
-            // get orders count
+            // get contract left
             try {
                 const response = await fetchData('/orders?status=settlement&sort=desc')
                 if (response !== undefined) {
@@ -67,6 +67,7 @@ export const useFeatured = (): FeaturedValue => {
                 console.log(err)
             }
 
+            // get orders count
             try {
                 const response = await fetchData('/orders?status=settlement&count_only=true')
                 const row = response?.rows ?? 0
